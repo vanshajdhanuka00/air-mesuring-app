@@ -1,0 +1,47 @@
+#include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
+
+const char* ssid = "your-ssid";
+const char* password = "your-password";
+const String serverUrl = "http://your-app-server-ip:port/update"; // Update with your app server URL
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+}
+
+void loop() {
+  // Read sensor data (replace with your actual sensor readings)
+  float co2Value = analogRead(A0);
+  float no2Value = analogRead(A1);
+  float coValue = analogRead(A2);
+  float temperatureValue = /* read temperature from your sensor */;
+  float humidityValue = /* read humidity from your sensor */;
+
+  // Send data to the app server
+  String postData = "co2=" + String(co2Value) +
+                    "&no2=" + String(no2Value) +
+                    "&co=" + String(coValue) +
+                    "&temperature=" + String(temperatureValue) +
+                    "&humidity=" + String(humidityValue);
+
+  HTTPClient http;
+  http.begin(serverUrl);
+  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
+
+  int httpResponseCode = http.POST(postData);
+
+  if (httpResponseCode > 0) {
+    Serial.println("Data sent successfully");
+  } else {
+    Serial.println("Error sending data");
+  }
+
+  http.end();
+
+  delay(900000);  // 15 minutes delay
+}
