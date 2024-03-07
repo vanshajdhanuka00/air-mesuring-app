@@ -4,7 +4,7 @@
  
 String apiKey = "92BKLYL93Z8CQ2L7";     //  Enter your Write API key from ThingSpeak
  
-const char *ssid =  "Nothing";     // replace with your wifi ssid and wpa2 key
+const char *ssid =  "Redmi";     // replace with your wifi ssid and wpa2 key
 const char *pass =  "12345678";
 const char* server = "api.thingspeak.com";
 const int sensorPin= 0;
